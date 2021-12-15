@@ -11,5 +11,7 @@ In order to use it import the module tes_simulator.py and give a look to test_dc
 The code uses the following python modules:
 
 numpy
+
 numba
+
 collections
