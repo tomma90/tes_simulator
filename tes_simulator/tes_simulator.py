@@ -336,7 +336,7 @@ def differential_equations_dc(tes_current, tes_temperature, bias_current, loadin
 	Pb = tes_leg_thermal_conductivity * (tes_temperature**tes_leg_thermal_carrier_exponent - bath_temperature**tes_leg_thermal_carrier_exponent) / (tes_leg_thermal_carrier_exponent * tes_temperature**(tes_leg_thermal_carrier_exponent - 1.))
 	Pr = V * V / R
 
-	return [(V - tes_current * shunt_resistor - tes_current * R) / squid_input_inductor, (-Pb + Pr + loading_power) / tes_heat_capacity]
+	return ((V - tes_current * shunt_resistor - tes_current * R) / squid_input_inductor, (-Pb + Pr + loading_power) / tes_heat_capacity)
 	
 # Coupled differential equations ac
 @jit(nopython=True)
@@ -368,7 +368,7 @@ def differential_equations_ac(tes_current, tes_dcurrent_dt, tes_temperature, tim
 	Pb = tes_leg_thermal_conductivity * (tes_temperature**tes_leg_thermal_carrier_exponent - bath_temperature**tes_leg_thermal_carrier_exponent) / (tes_leg_thermal_carrier_exponent * tes_temperature**(tes_leg_thermal_carrier_exponent - 1.))
 	Pr = tes_current * tes_current * R
 
-	return [tes_dcurrent_dt, (dVdt - tes_dcurrent_dt * R - tes_current / mux_lc_capacitor) / (mux_lc_inductor + squid_input_inductor), (-Pb + Pr + loading_power) / tes_heat_capacity]
+	return (tes_dcurrent_dt, (dVdt - tes_dcurrent_dt * R - tes_current / mux_lc_capacitor) / (mux_lc_inductor + squid_input_inductor), (-Pb + Pr + loading_power) / tes_heat_capacity)
 
 # Solve & update Dc TES I & T with Runge-Kutta method
 @jit(nopython=True)
